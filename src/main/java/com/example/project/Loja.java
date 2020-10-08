@@ -2,6 +2,13 @@ package com.example.project;
 
 public class Loja {
 
+    private static final String ENDLN = System.lineSeparator();
+	private static boolean isEmpty(String str){
+		if(str == null) return true;
+		int spaceCount = str.length() - str.replace(".", "").length();
+		return (spaceCount == str.length());
+	}
+
     private String nomeLoja;
     private String logradouro;
     private int numero;
@@ -79,9 +86,68 @@ public class Loja {
         return this.inscricaoEstadual;
     }
 
-    public String dadosLoja() {
-		// Implemente aqui
-		return null;
+    public String dadosLojaObjeto() {
+        // Implemente aqui
+        
+        String num = this.getNumero() + "";
+
+		if (isEmpty(this.getNomeLoja())){
+			throw new RuntimeException("O campo nome da loja é obrigatório");
+		}
+		if(isEmpty (this.getLogradouro())){
+			throw new RuntimeException("O campo logradouro do endereço é obrigatório");
+		}
+		if(this.getNumero() == 0){
+			num = "s/n";
+		}
+		if(isEmpty(this.getMunicipio())){
+			throw new RuntimeException("O campo município do endereço é obrigatório");
+		}
+		if (isEmpty(this.getEstado())){
+			throw new RuntimeException("O campo estado do endereço é obrigatório");
+		}
+		if (isEmpty(this.getCnpj())){
+			throw new RuntimeException("O campo cnpj da loja é obrigatório");
+		}
+		if (isEmpty(this.getInscricaoEstadual())){
+			throw new RuntimeException("O campo inscrição estadual da loja é obrigatório");
+		}
+		String part2 = this.getLogradouro()+ ", " + num;
+		if (! isEmpty (this.getComplemento())){
+			part2 += " " + this.getComplemento();
+			}
+		String part3 = "";
+		if (! isEmpty (this.getBairro())){
+			part3 += this.getBairro() + " - ";
+		}
+		part3 += this.getMunicipio() +  " - " + this.getEstado();
+		
+		String part4 = "";
+		if (! isEmpty (this.getCep())){
+			part4 = "CEP:" + this.getCep();
+			}
+		if (! isEmpty (this.getTelefone())){
+			if (! isEmpty (part4)){
+				part4 += " ";
+			}
+			part4 += "Tel " + this.getTelefone();
+			}
+		if (! isEmpty(part4)){
+			part4 += ENDLN;
+			}
+		String part5 = "";
+		if (! isEmpty (this.getObservacao())){
+			part5 += this.getObservacao();
+			}
+
+		String output = this.getNomeLoja() + ENDLN;
+		output += part2 + ENDLN;
+		output += part3 + ENDLN;
+		output += part4;
+		output += part5 + ENDLN;
+		output += "CNPJ: " + this.getCnpj() + ENDLN;
+        output += "IE: " + this.getInscricaoEstadual() +ENDLN;
+        return output;
 	}
 
 }
